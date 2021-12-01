@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.admin.TableDao">
+	<!-- 餐桌插入操作 -->
+	<insert id="add" parameterType="com.ischoolbar.programmer.entity.admin.Table">
+		insert into table_s(id,sn,tableTypeId,floorId,status,remark) values(null,#{sn},#{tableTypeId},#{floorId},#{status},#{remark})
+	</insert>
+	<!-- 餐桌编辑操作 -->
+	<update id="edit" parameterType="com.ischoolbar.programmer.entity.admin.Table">
+		update table_s set sn = #{sn},tableTypeId = #{tableTypeId},floorId = #{floorId},status = #{status},remark = #{remark} where id = #{id}
+	</update>
+	<!-- 餐桌信息搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="com.ischoolbar.programmer.entity.admin.Table">
+		select * from table_s where 1 = 1 
+		<if test="tableTypeId != null">
+			and tableTypeId = #{tableTypeId}  
+		</if>
+		<if test="floorId != null">
+			and floorId = #{floorId}  
+		</if>
+		<if test="sn != null">
+			and sn like '%${sn}%'   
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取所有餐桌信息 -->
+	<select id="findAll" parameterType="Map" resultType="com.ischoolbar.programmer.entity.admin.Table">
+		select * from table_s
+	</select>
+	<!-- 获取单个餐桌信息 -->
+	<select id="find" parameterType="Long" resultType="com.ischoolbar.programmer.entity.admin.Table">
+		select * from table_s where id = #{value}
+	</select>
+	<!-- 根据餐桌编号获取单个餐桌信息 -->
+	<select id="findBySn" parameterType="String" resultType="com.ischoolbar.programmer.entity.admin.Table">
+		select * from table_s where sn = #{value}
+	</select>
+	<!-- 模糊搜索总条数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from table_s where 1=1  
+		<if test="tableTypeId != null">
+			and tableTypeId = #{tableTypeId}  
+		</if>
+		<if test="floorId != null">
+			and floorId = #{floorId}  
+		</if>
+		<if test="sn != null">
+			and sn like '%${sn}%'   
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+	</select>
+	<!-- 删除餐桌信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from table_s where id = ${value}
+	</delete>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ischoolbar.programmer.dao.TableTypeDao">
+	<!-- 餐桌类型插入操作 -->
+	<insert id="add" parameterType="com.ischoolbar.programmer.entity.TableType">
+		insert into table_type(id,name,photo,price,type,useNum,tableNum,avilableNum,bookNum,status,remark)values(null,#{name},#{photo},#{price},#{type},#{useNum},#{tableNum},#{avilableNum},#{bookNum},#{status},#{remark})
+	</insert>
+	<!-- 餐桌类型编辑操作 -->
+	<update id="edit" parameterType="com.ischoolbar.programmer.entity.TableType">
+		update table_type set name = #{name},price = #{price},photo = #{photo},type = #{type},useNum = #{useNum},tableNum = #{tableNum},bookNum = #{bookNum},avilableNum = #{avilableNum},status = #{status},remark = #{remark} where id = #{id}
+	</update>
+
+	<!-- 餐桌类型信息搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="com.ischoolbar.programmer.entity.TableType">
+		select * from table_type where 1 = 1 
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取所有餐桌类型信息 -->
+	<select id="findAll" parameterType="Map" resultType="com.ischoolbar.programmer.entity.TableType">
+		select * from table_type
+	</select>
+		<!--  餐桌类型数量编辑操作 -->
+	<update id="updateNum" parameterType="com.ischoolbar.programmer.entity.TableType">
+		update table_type set avilableNum = #{avilableNum},bookNum = #{bookNum},surNum = #{surNum} where id = #{id}
+	</update>
+	<!-- 获取单个餐桌类型信息 -->
+	<select id="find" parameterType="Long" resultType="com.ischoolbar.programmer.entity.TableType">
+		select * from table_type where id = #{value}
+	</select>
+	<!-- 模糊搜索总条数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		select count(*) from table_type where 1=1  
+		<if test="name != null">
+			and name like '%${name}%' 
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+	</select>
+	<!-- 删除餐桌类型信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from table_type where id = ${value}
+	</delete>
+</mapper>
